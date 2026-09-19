@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h2>Dashboard</h2><p class="text-muted">Welcome to Royal Palace Hotel · Luxury &amp; Comfort · Lucknow</p></div></div>
+<div class="row g-3 mb-4">
+{% for label,value,color in [('Total Rooms',stats.rooms,'primary'),('Available',stats.available,'success'),('Booked/Occupied',stats.booked,'warning'),('Customers',stats.customers,'info')] %}
+<div class="col-sm-6 col-lg-3"><div class="card card-stat shadow-sm"><div class="card-body"><div class="text-muted">{{label}}</div><h2 class="mt-2">{{value}}</h2></div></div></div>{% endfor %}
+</div>
+<div class="card border-0 shadow-sm"><div class="card-body"><h5>Recent Bookings</h5>
+<div class="table-responsive"><table class="table mt-3"><tr><th>ID</th><th>Customer</th><th>Room</th><th>Dates</th><th>Status</th></tr>
+{% for b in recent %}<tr><td>#{{b.id}}</td><td>{{b.customer_name}}</td><td>{{b.room_number}}</td><td>{{b.check_in}} → {{b.check_out}}</td><td>{{b.status}}</td></tr>{% else %}<tr><td colspan="5">No bookings yet.</td></tr>{% endfor %}
+</table></div></div></div>
+{% endblock %}

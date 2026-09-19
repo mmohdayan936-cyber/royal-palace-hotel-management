@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<h2>Bookings</h2><div class="card shadow-sm border-0 my-4"><div class="card-body">
+{% if customers and rooms %}<form method="post" class="row g-2">
+<div class="col-md-3"><select class="form-select" name="customer_id" required><option value="">Select customer</option>{% for c in customers %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select></div>
+<div class="col-md-3"><select class="form-select" name="room_id" required><option value="">Available room</option>{% for r in rooms %}<option value="{{r.id}}">Room {{r.room_number}} — ₹{{r.price}}</option>{% endfor %}</select></div>
+<div class="col-md-2"><input class="form-control" type="date" name="check_in" required></div>
+<div class="col-md-2"><input class="form-control" type="date" name="check_out" required></div>
+<div class="col-md-2"><button class="btn btn-primary w-100">Book Room</button></div>
+</form>{% else %}<div class="alert alert-info mb-0">Add at least one customer and keep an available room before creating a booking.</div>{% endif %}
+</div></div>
+<div class="table-responsive"><table class="table table-bordered align-middle"><tr><th>ID</th><th>Customer</th><th>Room</th><th>Dates</th><th>Nights</th><th>Total</th><th>Status</th><th>Action</th></tr>
+{% for b in bookings %}<tr><td>#{{b.id}}</td><td>{{b.customer_name}}</td><td>{{b.room_number}} ({{b.room_type}})</td><td>{{b.check_in}} → {{b.check_out}}</td><td>{{b.nights}}</td><td>₹{{"%.2f"|format(b.total)}}</td><td>{{b.status}}</td><td class="text-nowrap"><a class="btn btn-sm btn-outline-secondary" href="{{url_for('bill',booking_id=b.id)}}">Bill</a> {% if b.status=='Booked' %}<a class="btn btn-sm btn-success" href="{{url_for('checkin',booking_id=b.id)}}">Check-in</a>{% elif b.status=='Checked-in' %}<a class="btn btn-sm btn-warning" href="{{url_for('checkout',booking_id=b.id)}}">Check-out</a>{% endif %}</td></tr>{% else %}<tr><td colspan="8">No bookings yet.</td></tr>{% endfor %}
+</table></div>{% endblock %}

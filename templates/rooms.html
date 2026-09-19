@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h2>Room Management</h2><div class="card shadow-sm border-0 my-4"><div class="card-body">
+<form method="post" class="row g-2"><div class="col-md-3"><input class="form-control" name="room_number" placeholder="Room number" required></div>
+<div class="col-md-3"><select class="form-select" name="room_type" required><option>Single</option><option>Double</option><option>Deluxe</option><option>Suite</option></select></div>
+<div class="col-md-3"><input class="form-control" name="price" type="number" min="0" placeholder="Price/night" required></div>
+<div class="col-md-3"><button class="btn btn-primary w-100">Add Room</button></div></form></div></div>
+<div class="table-responsive"><table class="table table-bordered align-middle"><tr><th>Room</th><th>Type</th><th>Price</th><th>Status</th><th>Action</th></tr>
+{% for r in rooms %}<tr><td>{{r.room_number}}</td><td>{{r.room_type}}</td><td>₹{{"%.2f"|format(r.price)}}</td><td><span class="badge {% if r.status=='Available' %}bg-success{% elif r.status=='Occupied' %}bg-danger{% else %}bg-warning text-dark{% endif %}">{{r.status}}</span></td><td><a class="btn btn-sm btn-outline-danger" href="{{url_for('delete_room',room_id=r.id)}}">Delete</a></td></tr>{% endfor %}
+</table></div>{% endblock %}

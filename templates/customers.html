@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h2>Customer Management</h2><div class="card shadow-sm border-0 my-4"><div class="card-body">
+<form method="post" class="row g-2"><div class="col-md-3"><input class="form-control" name="name" placeholder="Full name" required></div>
+<div class="col-md-3"><input class="form-control" name="phone" placeholder="Phone" required></div>
+<div class="col-md-3"><input class="form-control" name="email" type="email" placeholder="Email"></div>
+<div class="col-md-3"><button class="btn btn-primary w-100">Add Customer</button></div></form></div></div>
+<div class="table-responsive"><table class="table table-bordered"><tr><th>ID</th><th>Name</th><th>Phone</th><th>Email</th><th>Action</th></tr>
+{% for c in customers %}<tr><td>{{c.id}}</td><td>{{c.name}}</td><td>{{c.phone}}</td><td>{{c.email or '-'}}</td><td><a class="btn btn-sm btn-outline-danger" href="{{url_for('delete_customer',customer_id=c.id)}}">Delete</a></td></tr>{% else %}<tr><td colspan="5">No customers yet.</td></tr>{% endfor %}
+</table></div>{% endblock %}
